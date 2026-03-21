@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V&V Authentic Mexican Food</title>
+    <style>
+        :root { --primary: #0080a5; --bg: #fdfaf5; --danger: #e74c3c; }
+        body { font-family: 'Helvetica Neue', sans-serif; background: var(--bg); margin: 0; padding: 15px; color: #333; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h1 { color: var(--primary); text-align: center; margin-bottom: 5px; font-size: 24px; }
+        .subtitle { text-align: center; color: #666; font-size: 0.9rem; margin-bottom: 25px; }
+        
+        .menu-section { margin-bottom: 20px; border: 1px solid #eee; padding: 15px; border-radius: 12px; }
+        .menu-header { display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        .price { color: var(--primary); }
+        
+        .options-row { margin-top: 10px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        select, input, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; background: #fff; font-size: 16px; box-sizing: border-box; }
+        
+        .qty-controls { display: flex; align-items: center; background: #f0f0f0; border-radius: 8px; padding: 2px; width: fit-content; }
+        .qty-controls button { background: var(--primary); color: white; border: none; width: 35px; height: 35px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .qty-val { width: 35px; text-align: center; font-weight: bold; }
+
+        .user-info { margin-top: 30px; border-top: 2px dashed #eee; padding-top: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; color: #555; }
+        .input-group { margin-bottom: 15px; }
+        
+        #address-section { display: none; border-left: 4px solid var(--primary); padding-left: 15px; }
+        .total-box { font-size: 1.4rem; font-weight: bold; text-align: right; margin: 20px 0; color: var(--primary); }
+        .order-btn { width: 100%; background: #25D366; color: white; border: none; padding: 18px; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+        .reset-btn { width: 100%; background: none; border: 1px solid #ccc; color: #888; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; }
+        .footer-note { font-size: 0.75rem; color: #888; text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>V&V Authentic Mexican Food</h1>
+    <p class="subtitle">Fresh & Authentic | 24h Notice Required</p>
+
+    <div class="menu-section">
+        <div class="menu-header"><span>Burritos</span> <span class="price">$8</span></div>
+        <div class="options-row">
+            <select id="opt-burrito">
+                <option value="Chorizo with potatoes">Chorizo with potatoes</option>
+                <option value="Shredded meat">Shredded meat</option>
+                <option value="Shredded chicken">Shredded chicken</option>
+                <option value="Shredded chicken (Green)">Shredded chicken (Green)</option>
+                <option value="Fajita style chicken">Fajita style chicken</option>
+            </select>
+            <div class="qty-controls">
+                <button onclick="updateQty('burrito', -1)">-</button>
+                <span class="qty-val" id="qty-burrito">0</span>
+                <button onclick="updateQty('burrito', 1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-section">
+        <div class="menu-header"><span>Quesabirrias</span> <span class="price">$8</span></div>
+        <div class="options-row">
+            <select id="opt-quesa"><option value="Homemade Birria Beef">Homemade Birria Beef</option></select>
+            <div class="qty-controls">
+                <button onclick="updateQty('quesa', -1)">-</button>
+                <span class="qty-val" id="qty-quesa">0</span>
+                <button onclick="updateQty('quesa', 1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-section">
+        <div class="menu-header"><span>Tacos</span> <span class="price">$3</span></div>
+        <div class="options-row">
+            <select id="opt-tacos">
+                <option value="Beef Barbacoa">Beef Barbacoa</option>
+                <option value="Chicken">Chicken</option>
+            </select>
+            <div class="qty-controls">
+                <button onclick="updateQty('tacos', -1)">-</button>
+                <span class="qty-val" id="qty-tacos">0</span>
+                <button onclick="updateQty('tacos', 1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-section">
+        <div class="menu-header"><span>Gorditas</span> <span class="price">$6</span></div>
+        <div class="options-row">
+            <select id="opt-gordita">
+                <option value="Pork in green sauce">Pork in green sauce</option>
+                <option value="Chicken fajitas">Chicken fajitas</option>
+                <option value="Beans with cheese">Beans with cheese</option>
+                <option value="Red/green chili egg">Red/green chili egg</option>
+            </select>
+            <div class="qty-controls">
+                <button onclick="updateQty('gordita', -1)">-</button>
+                <span class="qty-val" id="qty-gordita">0</span>
+                <button onclick="updateQty('gordita', 1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="user-info">
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" id="userName" placeholder="Your name">
+        </div>
+
+        <div class="input-group">
+            <label>How will you get your food?</label>
+            <select id="orderMode" onchange="toggleAddress()">
+                <option value="Pick-up">Pick-up (Free)</option>
+                <option value="Delivery">Delivery (Required Address)</option>
+            </select>
+        </div>
+
+        <div class="input-group" id="address-section">
+            <label>Delivery Address</label>
+            <input type="text" id="addressField" placeholder="Street, City, Zip Code">
+        </div>
+
+        <div class="input-group">
+            <label>Notes</label>
+            <textarea id="notes" rows="2" placeholder="Ex: No onions, door code, extra napkins..."></textarea>
+        </div>
+
+        <div class="total-box">Total: $<span id="total-price">0</span></div>
+        <button class="order-btn" onclick="sendWhatsApp()">Submit Order to WhatsApp</button>
+        <button class="reset-btn" onclick="resetForm()">Reset All</button>
+    </div>
+
+    <div class="footer-note">Contact: +49 1 522 773 0630</div>
+</div>
+
+<script>
+    const prices = { burrito: 8, quesa: 8, tacos: 3, gordita: 6 };
+    let cart = { burrito: 0, quesa: 0, tacos: 0, gordita: 0 };
+
+    function updateQty(id, change) {
+        cart[id] = Math.max(0, cart[id] + change);
+        document.getElementById(`qty-${id}`).innerText = cart[id];
+        let total = 0;
+        for (let key in cart) { total += cart[key] * prices[key]; }
+        document.getElementById('total-price').innerText = total;
+    }
+
+    function toggleAddress() {
+        const mode = document.getElementById('orderMode').value;
+        document.getElementById('address-section').style.display = (mode === 'Delivery') ? 'block' : 'none';
+    }
+
+    function resetForm() {
+        if(confirm("Are you sure you want to clear your order?")) {
+            cart = { burrito: 0, quesa: 0, tacos: 0, gordita: 0 };
+            document.querySelectorAll('.qty-val').forEach(el => el.innerText = "0");
+            document.getElementById('total-price').innerText = "0";
+            document.getElementById('userName').value = "";
+            document.getElementById('addressField').value = "";
+            document.getElementById('notes').value = "";
+            document.getElementById('orderMode').value = "Pick-up";
+            toggleAddress();
+        }
+    }
+
+    function sendWhatsApp() {
+        const name = document.getElementById('userName').value;
+        const mode = document.getElementById('orderMode').value;
+        const addr = document.getElementById('addressField').value;
+        const notes = document.getElementById('notes').value;
+        
+        // Check Name
+        if (!name.trim()) return alert("Please enter your name.");
+
+        // Check Items
+        let hasItems = false;
+        for (let id in cart) { if (cart[id] > 0) hasItems = true; }
+        if (!hasItems) return alert("Please add at least one item to your order.");
+
+        // Check Address IF Delivery is selected
+        if (mode === 'Delivery' && !addr.trim()) {
+            return alert("Delivery address is required for delivery orders.");
+        }
+
+        let msg = `*New Order: ${mode}*%0A*Customer:* ${name}%0A`;
+        if (mode === 'Delivery') msg += `*Address:* ${addr}%0A`;
+        msg += `------------------%0A`;
+
+        for (let id in cart) {
+            if (cart[id] > 0) {
+                const type = document.getElementById(`opt-${id}`).value;
+                msg += `${cart[id]}x ${id.charAt(0).toUpperCase() + id.slice(1)} (${type})%0A`;
+            }
+        }
+
+        if (notes) msg += `------------------%0A*Notes:* ${notes}%0A`;
+        msg += `------------------%0A*Total: $${document.getElementById('total-price').innerText}*`;
+
+        window.open(`https://wa.me/4915227730630?text=${msg}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
